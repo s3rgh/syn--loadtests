@@ -1,0 +1,88 @@
+<configuration>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>./logs/logFile-${bySecond}.log</file>
+        <append>false</append>
+        <!-- set immediateFlush to false for much higher logging throughput -->
+        <immediateFlush>true</immediateFlush>
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--    Uncomment for logging ALL HTTP request and responses-->
+    <logger name="io.gatling.http.ahc" level="INFO"/>
+    <logger name="io.gatling.http.response" level="INFO"/>
+    <!--     Uncomment for logging ONLY FAILED HTTP request and responses-->
+<!--    <logger name="io.gatling.http.ahc" level="TRACE"/>-->
+<!--    <logger name="io.gatling.http.response" level="DEBUG"/>-->
+
+    <root level="TRACE">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+
+
+        <!--<configuration>-->
+
+        <!--    <if condition='property("CONSOLE_LOGGING").contains("ON")'>-->
+        <!--        <then>-->
+        <!--            <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--                <encoder>-->
+        <!--                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+        <!--                </encoder>-->
+        <!--            </appender>-->
+        <!--        </then>-->
+        <!--    </if>-->
+
+        <!--    <if condition='property("FILE_LOGGING").contains("ON")'>-->
+        <!--        <then>-->
+        <!--            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--                <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--                    <level>DEBUG</level>-->
+        <!--                    <onMatch>ACCEPT</onMatch>-->
+        <!--                    <onMismatch>DENY</onMismatch>-->
+        <!--                </filter>-->
+        <!--                <encoder>-->
+        <!--                    <pattern>%date{yyy-MM-dd'T'HH:mm:ss.SSSXXX, UTC} ${PROJECT:-debug}%replace(%msg){'[\r\n]+', ' '}%n</pattern>-->
+        <!--                </encoder>-->
+        <!--                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+        <!--                    <fileNamePattern>target/gatling-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+        <!--                    <maxFileSize>100MB</maxFileSize>-->
+        <!--                    <maxHistory>5</maxHistory>-->
+        <!--                    <totalSizeCap>500MB</totalSizeCap>-->
+        <!--                </rollingPolicy>-->
+        <!--            </appender>-->
+
+        <!--            <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">-->
+        <!--                <appender-ref ref="FILE"/>-->
+        <!--            </appender>-->
+        <!--        </then>-->
+        <!--    </if>-->
+        <!--    <logger name="io.gatling.http.engine.response.DefaultStatsProcessor" level="DEBUG"/>-->
+
+        <!--    <root level="${ROOT_LOGGING_LEVEL:-ERROR}">-->
+        <!--        <if condition='property("CONSOLE_LOGGING").contains("ON")'>-->
+        <!--            <then>-->
+        <!--                <appender-ref ref="CONSOLE"/>-->
+        <!--            </then>-->
+        <!--        </if>-->
+        <!--        <if condition='property("FILE_LOGGING").contains("ON")'>-->
+        <!--            <then>-->
+        <!--                <appender-ref ref="ASYNC_FILE"/>-->
+        <!--            </then>-->
+        <!--        </if>-->
+        <!--    </root>-->
+
+        <!--</configuration>-->
